@@ -1,69 +1,43 @@
-# QuickSMS Gateway Console
+# SMS Sender - Web SMS Client
 
-A modern single-page SMS gateway application built with **Nuxt 4**, **Vue 3 Composition API**, and **Tailwind CSS**. Designed for carrier dispatching, live validation, GSM-7/UCS-2 segment calculation, and transmission analytics.
+A clean single-page SMS messaging web application built with pure **HTML**, **CSS**, and **Vanilla JavaScript** (no framework or build step required), integrated with the **TextBee SMS Gateway API**.
 
 ---
 
 ## Features
 
-- **Form Composition & Validation**:
-  - E.164 international phone number format validation (e.g., `+1 555 123 4567`).
-  - Required fields checking before dispatch with clear inline visual errors.
-  - Quick-fill test message templates (2FA OTP, Order Dispatch, Appointment Reminder).
-  - Keyboard shortcuts (`Ctrl+Enter` or `Cmd+Enter` to send).
-- **GSM-7 & UCS-2 Multi-Part Segment Calculator**:
-  - Real-time character and segment counter.
-  - Automatically identifies non-GSM Unicode characters (emojis, accents) and alerts when shifting to UCS-2 (70 chars per segment).
-- **Provider Connectivity**:
-  - **Zero-Config Simulated Direct Transit**: Out-of-the-box carrier simulation with simulated network latency and carrier routing.
-  - **Live Twilio API Support**: Set credentials in `.env` to connect directly to Twilio.
-  - **Custom HTTP Gateway**: Direct dispatch to enterprise webhook endpoints.
-- **Dedicated QA Test Numbers**:
-  - `+1 (555) 234-8901`: Simulates normal successful carrier delivery (200 OK).
-  - `+1 (555) 000-0100`: Simulates Carrier Network Timeout (504).
-  - `+1 (555) 000-0144`: Simulates Unreachable Roaming Carrier (422).
-  - `+1 (555) 000-9999`: Simulates Gateway Credits Depleted (402).
-- **Audit Dashboard & History**:
-  - Live transmission feed of recent attempts with delivery status, latency, and carrier name.
-  - Search filter by recipient phone number, carrier, or message text.
-  - Status tabs: Filter by `All`, `Delivered`, or `Failed`.
-  - Detailed telemetry modal (raw audit payload, latency, headers, cost estimate).
-  - One-click actions: "Prefill Form / Resend", "Export CSV", and "Clear History".
-- **KPI Metrics Overview**:
-  - Total messages dispatched & segment counts.
-  - Delivery SLA success rate percentage.
-  - Roundtrip network latency.
-  - Estimated transit routing cost ($USD).
+- **Pure HTML/CSS/JS**: Zero build tools required. Can be run by simply opening `index.html` in any modern web browser or serving with any static file server.
+- **Reference Image Faithful Design**:
+  - Dark Navy left sidebar (`#0c1a30`) with custom speed lines logo, paper airplane vector, and navigation menu.
+  - White card form with recipient phone number and message inputs.
+  - Interactive tilted smartphone illustration with SMS speech bubble and soaring origami plane.
+  - Green success banner and red error banners.
+  - Message history table with pre-seeded `Nov 6, 2026 • 03:15 PM` entry and real-time dynamic additions.
+- **Form Validation & Constraints**:
+  - Live `0 / 160` character limit counter.
+  - Validates recipient phone number format (+63, 09..., or E.164) and message before sending.
+- **TextBee Gateway Integration (`api.textbee.dev`)**:
+  - Connects directly to TextBee's REST endpoint (`https://api.textbee.dev/api/v1/gateway/send-sms`).
+  - Configure your API Key & Android Device ID via the in-app **TextBee API** modal (persisted securely in browser `localStorage`).
+  - Works out of the box with built-in realistic simulation if no API key is set.
+- **Persistent History**: Stores transmission records in `localStorage` across sessions.
 
 ---
 
-## Getting Started
+## How to Run
 
-### 1. Install Dependencies
-```bash
-npm install
-```
+### Option 1: Direct File
+Simply double-click [`index.html`](file:///c:/Users/Admin/OneDrive/Documents/CODES/sms-gateway/index.html) to open it in Chrome, Edge, or Firefox.
 
-### 2. Configure Environment (Optional)
-Copy `.env.example` to `.env` if connecting to a live Twilio account:
+### Option 2: Local HTTP Server
+Run any static HTTP server in the project folder:
+
 ```bash
-cp .env.example .env
-```
-```env
-SMS_PROVIDER=mock # or 'twilio'
-TWILIO_ACCOUNT_SID=your_sid_here
-TWILIO_AUTH_TOKEN=your_token_here
-TWILIO_FROM_NUMBER=+15005550006
+# Python
+python -m http.server 3000
+
+# or Node / npx
+npx serve
 ```
 
-### 3. Run Development Server
-```bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### 4. Build for Production
-```bash
-npm run build
-npm run preview
-```
+Visit [http://localhost:3000](http://localhost:3000) in your browser.
